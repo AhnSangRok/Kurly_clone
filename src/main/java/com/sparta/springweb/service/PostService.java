@@ -10,6 +10,7 @@ import com.sparta.springweb.model.Embedded.File;
 import com.sparta.springweb.model.Post;
 import com.sparta.springweb.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +21,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Component
 public class PostService {
 
     private final AmazonS3Client amazonS3Client;
@@ -28,7 +30,8 @@ public class PostService {
     private String S3Bucket = "test-bucket-hong";
 
 
-    public PostDto saveImage(PostDto postDto, MultipartFile file) throws IOException{
+    // 이미지 저장하기
+    public  PostDto saveImage(PostDto postDto, MultipartFile file) throws Exception{
 
         FileDto fileDto = createFile(file);
         File saveFile = new File(fileDto);
@@ -38,7 +41,8 @@ public class PostService {
         return postDto;
     }
 
-    public FileDto createFile(MultipartFile file) throws IOException {
+    //저장할 이미지 생성
+    public FileDto createFile(MultipartFile file) throws Exception {
         String originalName= file.getOriginalFilename();
         long size = file.getSize();
 
@@ -62,6 +66,8 @@ public class PostService {
         return new FileDto(fileUrl, originalName, fileName);
 
     }
+
+    //목록 불러오기
 
 
 
