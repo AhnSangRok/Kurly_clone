@@ -1,21 +1,26 @@
 package com.sparta.springweb.model;
 
-import com.sparta.springweb.dto.PostDto;
-import com.sparta.springweb.model.Embedded.File;
+
+import com.sparta.springweb.dto.PostResquestDto;
+import lombok.*;
 
 import javax.persistence.*;
-
+@Entity
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_id")
-    private Long id;
+    private Long postId;
 
     @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
-    private int price;
+    private String image_url;
 
     @Column(nullable = false)
     private String salesUnit;
@@ -23,17 +28,34 @@ public class Post {
     @Column(nullable = false)
     private String weight;
 
-    @Embedded
-    private File file;
+    @Column(nullable = false)
+    private int price;
 
-    public Post (PostDto postDto){
-        this.title = postDto.getTitle();
-        this.price = postDto.getPrice();
-        this.salesUnit = postDto.getSalesUnit();
-        this.weight = postDto.getWeight();
+
+
+
+    public Post(PostResquestDto postResquestDto) {
+        this.title = postResquestDto.getTitle();
+        this.image_url = postResquestDto.getImage_url();
+        this.salesUnit = postResquestDto.getSalesUnit();
+        this.weight = postResquestDto.getWeight();
+        this.price = postResquestDto.getPrice();
     }
 
-    public void setFile(File file) {
-        this.file = file;
+
+
+
+    public void update(PostResquestDto postResquestDto) {
+        this.title = postResquestDto.getTitle();
+        this.image_url = postResquestDto.getImage_url();
+        this.salesUnit = postResquestDto.getSalesUnit();
+        this.weight = postResquestDto.getWeight();
+        this.price = postResquestDto.getPrice();
+
+
+
     }
+
 }
+
+
