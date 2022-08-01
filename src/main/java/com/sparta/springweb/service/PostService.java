@@ -18,20 +18,20 @@ import java.util.List;
 public class PostService {
     private final PostRepository postRepository;
 //게시글 생성
-    @Transactional
-    public void savepost(PostResquestDto postresquestdto) {
+@Transactional
+public void savepost(PostResquestDto postresquestdto) {
 
-        Post post = Post.builder()
-                .postId(postresquestdto.getPostId())
-                .title(postresquestdto.getTitle())
-                .salesUnit(postresquestdto.getSalesUnit())
-                .weight(postresquestdto.getWeight())
-                .image_url(postresquestdto.getImage_url())
-                .build();
+    Post post = Post.builder()
+            .postId(postresquestdto.getPostId())
+            .title(postresquestdto.getTitle())
+            .salesUnit(postresquestdto.getSalesUnit())
+            .weight(postresquestdto.getWeight())
+            .image_url(postresquestdto.getImage_url())
+            .build();
 
 
-        postRepository.save(post);
-    }
+    postRepository.save(post);
+}
 
 //게시글 삭제
     @Transactional

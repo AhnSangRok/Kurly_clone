@@ -4,20 +4,16 @@ package com.sparta.springweb.model;
 import com.sparta.springweb.dto.PostResquestDto;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
+import javax.persistence.*;
 @Entity
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
-
 public class Post {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
 
     @Column(nullable = false)
@@ -34,6 +30,8 @@ public class Post {
 
     @Column(nullable = false)
     private int price;
+
+
 
 
     public Post(PostResquestDto postResquestDto) {
@@ -59,3 +57,5 @@ public class Post {
     }
 
 }
+
+
