@@ -22,6 +22,7 @@ public class PostService {
     public void savepost(PostResquestDto postresquestdto) {
 
         Post post = Post.builder()
+                .postId(postresquestdto.getPostId())
                 .title(postresquestdto.getTitle())
                 .salesUnit(postresquestdto.getSalesUnit())
                 .weight(postresquestdto.getWeight())

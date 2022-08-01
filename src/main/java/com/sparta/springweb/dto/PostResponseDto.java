@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class PostResponseDto {
-
+    private Long postId;
     private String title;
     private String image_url;
     private String salesUnit;
@@ -20,6 +20,7 @@ public class PostResponseDto {
 
 
     public PostResponseDto(Post post) {
+        this.postId=post.getPostId();
         this.title= post.getTitle();
         this.image_url= post.getImage_url();
         this.salesUnit=post.getSalesUnit();

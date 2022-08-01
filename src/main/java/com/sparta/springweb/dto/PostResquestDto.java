@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class PostResquestDto {
+    private Long postId;
     private String title;
     private String image_url;
     private String salesUnit;

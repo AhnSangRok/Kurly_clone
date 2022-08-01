@@ -18,7 +18,7 @@ import javax.persistence.Id;
 
 public class Post {
     @Id
-    private Long Id;
+    private Long postId;
 
     @Column(nullable = false)
     private String title;
