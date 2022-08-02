@@ -13,11 +13,4 @@ public class SpringwebApplication {
     }
 
 
-
-//    @Bean
-//    public CommandLineRunner demo(PostsRepository repository) {
-//        return (args) -> {
-//            repository.save(new Contents("항해99", "선원1", "어푸어푸"));
-//        };
-//    }
 }

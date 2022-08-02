@@ -52,7 +52,7 @@ public void savepost(PostRequestDto postresquestdto) throws IOException {
 
     postRepository.save(post);
 }
-
+//이미지생성
     public FileDto createFile(MultipartFile file) throws IOException {
         String originalName = file.getOriginalFilename();
         long size = file.getSize();
