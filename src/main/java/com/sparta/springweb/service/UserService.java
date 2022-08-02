@@ -20,7 +20,6 @@ import static com.sparta.springweb.exception.ErrorCode.*;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
@@ -32,7 +31,8 @@ public class UserService {
         String nickname = requestDto.getNickname();
         String pattern = "^[a-zA-Z0-9]*$";
 
-        // 회원 ID 중복 확인
+
+//        회원 ID 중복 확인
         Optional<User> found = userRepository.findAllByUsername(username);
         if (found.isPresent()) {
             throw new CustomException(ID_DUPLICATION_CODE);
@@ -51,6 +51,7 @@ public class UserService {
             throw new CustomException(PASSWORD_INCLUDE_CODE);
         }
 
+
         // 패스워드 인코딩
         password = passwordEncoder.encode(password);
         requestDto.setPassword(password);
@@ -62,10 +63,6 @@ public class UserService {
         return new SignupResponseDto(username, password, passwordCheck, nickname);
     }
 
-//    // 로그아웃
-//    public String logout(HttpServletRequest request) {
-//        String header = jwtTokenProvider.resolveToken(request);
-//        jwtTokenProvider.invalidateToken(header);
-//        return "logout";
-//    }
+
+
 }

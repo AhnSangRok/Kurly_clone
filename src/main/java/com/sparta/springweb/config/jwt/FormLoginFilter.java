@@ -4,6 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.springweb.dto.LoginRequestDto;
+import com.sparta.springweb.exception.CustomException;
+import com.sparta.springweb.exception.ErrorCode;
 import com.sparta.springweb.model.User;
 import com.sparta.springweb.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +16,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
+import static com.sparta.springweb.exception.ErrorCode.*;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,12 +24,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 
-@RequiredArgsConstructor
+
 public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
 
-    private final AuthenticationManager authenticationManager;
-
-
+    public FormLoginFilter(AuthenticationManager authenticationManager) {
+        super(authenticationManager);
+    }
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
@@ -40,14 +42,13 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
 
             System.out.println("FormLoginFilter를 거침");
 
-            return authenticationManager.authenticate(authenticationToken);
+            return getAuthenticationManager().authenticate(authenticationToken);
 
         }
         catch (IOException e){
-            e.printStackTrace();
+            throw new RuntimeException("잘못된 로그인 정보입니다.");
+//            e.printStackTrace();
         }
-
-        return null;
     }
 
     @Override
@@ -63,5 +64,19 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
 
         response.addHeader("Authorization","Bearer "+jwtToken);
 
+        System.out.println("successfulAuthentication메서드를 거침");
+
     }
+
+//    @Override
+//    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+//        System.out.println(failed.getMessage());
+//        response.setStatus(400);
+//        response.setCharacterEncoding("UTF-8");
+//        response.getWriter().write(failed.getMessage());
+//
+//    }
+
+
+
 }

@@ -6,19 +6,14 @@ import lombok.Getter;
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ErrorCode {
-
     ID_DUPLICATION_CODE(400, "C001", "중복된 id가 있습니다"),
-
     ID_LENGTH_CODE(400, "C002", "아이디는 3자 이상 입력해주세요"),
-
     ID_FORM_CODE(400, "C003", "아이디는 알파벳 대소문자와 숫자로만 입력해주세요"),
     //response.message -> then
     PASSWORD_CHECK_CODE(400, "C004", "패스워드와 패스워드 확인이 일치하지 않습니다"),
     PASSWORD_LENGTH_CODE(400, "C005", "패스워드는 4글자 이상 입력해주세요"),
     PASSWORD_INCLUDE_CODE(400, "C006", "비밀번호에 아이디가 포함될 수 없습니다"),
-
     LOGIN_CODE(400, "C007", "아이디 비밀번호를 확인해 주세요");
-
     private final int status;
     private final String code;
     private final String message;

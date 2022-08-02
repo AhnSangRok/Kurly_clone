@@ -40,12 +40,11 @@ public class JwtLoginFilter extends BasicAuthenticationFilter {
 
         String jwtToken = request.getHeader("Authorization").replace("Bearer ", "");
 
-
-
         String username = JWT.require(Algorithm.HMAC512("clone_3team")).build().verify(jwtToken).getClaim("username").asString();
 
         if(username != null) {
-            User user = userRepository.findByUsername(username);
+            User user = userRepository.findByUsername(username)
+                    .orElseThrow( ()-> new IllegalArgumentException("username 이 없습니다"));
 
             UserDetailsImpl userDetails = new UserDetailsImpl(user);
 

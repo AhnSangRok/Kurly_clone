@@ -1,6 +1,7 @@
 package com.sparta.springweb.controller;
 
 import com.sparta.springweb.dto.SignupRequestDto;
+import com.sparta.springweb.exception.CustomException;
 import com.sparta.springweb.security.UserDetailsImpl;
 import com.sparta.springweb.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import static com.sparta.springweb.exception.ErrorCode.ID_LENGTH_CODE;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,6 +25,8 @@ public class UserController {
                                                                         //상태코드를 보내는 이유?
     }
 
+
+
     // 로그아웃
 //    @PostMapping("/logout")
 //    public String logout(HttpServletRequest request) {
@@ -32,7 +37,7 @@ public class UserController {
     public String getCart(@AuthenticationPrincipal UserDetailsImpl userDetails){
         if(userDetails==null) {
             // 유저가 없다는 의미이므로 비정상 페이지 리턴
-            return "";
+            throw new CustomException(ID_LENGTH_CODE);
         } else{
             // 토큰 값이 있으므로 정상 페이지 리턴
 
@@ -43,27 +48,6 @@ public class UserController {
 
     }
 
-    @GetMapping("/abc")
-    public String user(){
-        Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return object.toString();
-    }
 
-    @GetMapping("/api/cart/userinfo")
-    public String getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        String username = userDetails.getUser().getUsername();
-        return username;
-    }
-
-    @GetMapping("/user/userinfo2")    // jwtLoginFilter를 거침
-    public String getUserInfo2(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        String username = userDetails.getUser().getUsername();
-        return username;
-    }
-
-    @GetMapping("/user/userinfo3")   // jwtLoginFilter를 거침
-    public String getUserInfo3() {
-        return "getUserInfo2";
-    }
 
 }
