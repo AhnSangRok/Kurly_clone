@@ -12,6 +12,7 @@ public class CartRequestDto {
     private String username;
     private List<CartItem> items;
 
+    //장바구니
     public CartRequestDto(List<CartItem> items, UserDetails userDetails){
         this.username = userDetails.getUsername();
         this.items = items;

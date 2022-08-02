@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartItem {
+public class CartItem { //장바구니 물건
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

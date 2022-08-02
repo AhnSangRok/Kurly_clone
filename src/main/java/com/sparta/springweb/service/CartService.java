@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class CartService {
+public class CartService { //장바구니
 
     private final CartRepository cartRepository;
     private final UserRepository userRepository;

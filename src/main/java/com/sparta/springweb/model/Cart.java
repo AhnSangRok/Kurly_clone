@@ -13,7 +13,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cart {
+public class Cart {//장바구니
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

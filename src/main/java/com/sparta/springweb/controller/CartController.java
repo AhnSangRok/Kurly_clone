@@ -28,7 +28,7 @@ public class CartController {
         return new ResponseEntity("장바구니에 추가되었습니다",HttpStatus.OK);
     }
 
-    // 장바구니 조회
+    // 장바구니 조회 가능
     @GetMapping("/api/cart")
     public ResponseEntity getCart(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         Cart cart = cartService.getCart(userDetails.getUser());

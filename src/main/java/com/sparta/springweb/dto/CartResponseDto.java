@@ -14,6 +14,7 @@ public class CartResponseDto {
     private int deliveryFee;
     private int totalPrice;
 
+    //장바구니
     public CartResponseDto(Cart cart) {
         this.username = cart.getUsername();
         this.posts = cart.getPosts();
