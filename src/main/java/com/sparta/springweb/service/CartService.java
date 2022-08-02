@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+//import static com.sparta.springweb.exception.ErrorCode;
+
 @Service
 @RequiredArgsConstructor
 public class CartService {
@@ -27,9 +29,14 @@ public class CartService {
     private final CartItemRepository cartItemRepository;
 
     public CartItem postItem(Long postId, UserDetailsImpl userDetails) {
+        //  유저확인
+        if (userDetails.getUser() == null){
+//            throw new CustomException(NOT_FOUND_USER);
+        }
+
         Cart cart = cartRepository.findByUser(userDetails.getUser());
         List<CartItem> cartItemList =new ArrayList<>();
-
+        // 카트가 없을 경우 생성
         if (cart == null){
             cart = Cart.builder()
                     .user(userDetails.getUser())
@@ -45,6 +52,7 @@ public class CartService {
 
         CartItem cartItem = cartItemRepository.findByCartIdAndPostId(cart.getId(), postId);
 
+        //장바구니에 물건 추가
         if (cartItem == null){
             cartItem = CartItem.builder()
                     .cart(cart)
@@ -63,9 +71,14 @@ public class CartService {
     // 장바구니 조회
     @Transactional
     public Cart getCart(User user) {
+        //  유저확인
+        if (user == null){
+//            throw new CustomException(NOT_FOUND_USER);
+        }
         Cart cart = cartRepository.findByUser(user);
         List<CartItem> cartItemList =new ArrayList<>();
 
+        //장바구니가 없는 경우 추가
         if (cart == null){
             cart = Cart.builder()
                     .user(user)
@@ -82,11 +95,13 @@ public class CartService {
         int deliveryFee = 3000;
 
         List<CartItem> cartItems = cartItemRepository.findCartItemsByCart(cart);
+
         for (CartItem cartItem : cartItems){
             cartItemList.add(cartItem);
             totalPrice += cartItem.getPrice();
         }
 
+        // 총 금액이 2만원이 넘여갈 경우 배달료 0원
         if (totalPrice > 20000){
             deliveryFee = 0;
         }
@@ -100,11 +115,18 @@ public class CartService {
 
     //특정 물건 삭제
     public Cart deleteItem(Long cartItemId, User user) {
-        Cart cart = cartRepository.findByUser(user);
-
-        if (cart == null){
-            throw new IllegalStateException("아이디가 없음");
+        //  유저확인
+        if (user == null){
+//            throw new CustomException(NOT_FOUND_USER);
         }
+
+        Cart cart = cartRepository.findByUser(user);
+        //  장바구니 확인
+        if (cart == null){
+//            throw new CustomException(NOT_FOUND_ITEM);
+        }
+
+        //상속 받고 있는 데이터 부터 삭제
         List<CartItem> items =  cart.getPosts();
         for (int i = 0; i < items.size(); i++) {
             if (Objects.equals(items.get(i).getId(), cartItemId)){
@@ -119,21 +141,32 @@ public class CartService {
         return cart;
     }
 
+    //장바구니 전체 삭제
     public Cart deleteCart(User user) {
-        Cart cart = cartRepository.findByUser(user);
+        //  유저확인
+        if (user == null){
+//            throw new CustomException(NOT_FOUND_USER);
+        }
 
+        Cart cart = cartRepository.findByUser(user);
+        //  장바구니 확인
         if (cart == null){
-            throw new IllegalStateException("아이디가 없음");
+//            throw new CustomException(NOT_FOUND_ITEM);
         }
 
         List<CartItem> items =  cart.getPosts();
-
-        for (CartItem item : items) {
-            items.remove(item);
-            cartItemRepository.deleteById(item.getId());
+        //  장바구니 물건 확인
+        if (items == null){
+//            throw new CustomException(NOT_FOUND_ITEM);
         }
 
-        cart.setPosts(items);
+        //장바구니에 있는 물건 비우기
+        cart.setPosts(null);
+
+        //데이터 삭제
+        for (CartItem item : Objects.requireNonNull(items)){
+            cartItemRepository.deleteById(item.getId());
+        }
 
         return cart;
     }

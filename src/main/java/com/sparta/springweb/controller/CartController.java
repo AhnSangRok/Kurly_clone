@@ -4,10 +4,11 @@ package com.sparta.springweb.controller;
 import com.sparta.springweb.dto.CartResponseDto;
 import com.sparta.springweb.model.Cart;
 import com.sparta.springweb.model.CartItem;
-import com.sparta.springweb.model.Post;
 import com.sparta.springweb.security.UserDetailsImpl;
 import com.sparta.springweb.service.CartService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,17 +21,19 @@ public class CartController {
 
     // 장바구니 물건 추가
     @PostMapping("/api/post/item/{postId}")
-    public CartItem getItem(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return cartService.postItem(postId, userDetails);
+    public ResponseEntity getItem(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         //페이지 리턴 response entity
+        cartService.postItem(postId, userDetails);
+
+        return new ResponseEntity("장바구니에 추가되었습니다",HttpStatus.OK);
     }
 
     // 장바구니 조회
     @GetMapping("/api/cart")
-    public CartResponseDto getCart(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity getCart(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         Cart cart = cartService.getCart(userDetails.getUser());
         CartResponseDto responseDto = new CartResponseDto(cart);
-        return responseDto;
+        return new ResponseEntity(responseDto,HttpStatus.OK);
     }
 
     @GetMapping("/api/cart1")
@@ -41,12 +44,15 @@ public class CartController {
 
     // 장바구니 특정 물건 삭제
     @DeleteMapping("/api/cart/item/{cartItemId}")
-    public Cart deleteItem(@PathVariable Long cartItemId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return cartService.deleteItem(cartItemId, userDetails.getUser());
+    public ResponseEntity deleteItem(@PathVariable Long cartItemId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        cartService.deleteItem(cartItemId, userDetails.getUser());
+        return new ResponseEntity("정상적으로 물건이 삭제되었습니다.",HttpStatus.OK);
+
     }
     // 장바구니 전체 삭제
     @DeleteMapping("/api/cart")
-    public Cart deleteCart(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return cartService.deleteCart(userDetails.getUser());
+    public ResponseEntity deleteCart(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        cartService.deleteCart(userDetails.getUser());
+        return new ResponseEntity("정상적으로 장바구니가 비워졌습니다.",HttpStatus.OK);
     }
 }
