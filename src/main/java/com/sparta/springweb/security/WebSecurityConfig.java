@@ -1,20 +1,25 @@
 package com.sparta.springweb.security;
 
-import com.sparta.springweb.jwt.JwtAuthenticationFilter;
-import com.sparta.springweb.jwt.JwtTokenProvider;
+import com.sparta.springweb.config.jwt.FormLoginFilter;
+import com.sparta.springweb.config.jwt.FormLoginProvider;
+import com.sparta.springweb.config.jwt.JwtLoginFilter;
+import com.sparta.springweb.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -28,52 +33,51 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JwtTokenProvider jwtTokenProvider;
-
-    @Bean   // 비밀번호 암호화
-    public BCryptPasswordEncoder encodePassword() {
-        return new BCryptPasswordEncoder();
+    private final UserRepository userRepository;
+    private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
+    @Override
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
     }
 
-    @Bean
-    @Override // Bean 에 등록
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
 
-    // 정적 자원에 대해서는 Security 설정을 적용하지 않음.
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+// h2-console 사용에 대한 허용 (CSRF, FrameOptions 무시)
+        web
+                .ignoring()
+                .antMatchers("/h2-console/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.cors().configurationSource(corsConfigurationSource());
-        http.headers().frameOptions().disable();
-        http.authorizeRequests()
-
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .formLogin().disable()
+                .httpBasic().disable()
+                .addFilter(new FormLoginFilter(authenticationManager()))
+                .addFilter(new JwtLoginFilter(authenticationManager(), userRepository))
+                .authorizeRequests()
                 // api 요청 접근허용
                 .antMatchers("/user/**").permitAll()
-                .antMatchers("**").permitAll()
-                .antMatchers("/").permitAll()
-                .antMatchers(HttpMethod.GET,"/api/post/**").permitAll()
+                .antMatchers("/api/cart/**")
+                .access("hasRole('ROLE_USER')")
+//                .antMatchers("**").permitAll()
+//                .antMatchers("/").permitAll()
+//                .antMatchers(HttpMethod.GET,"/api/post/**").permitAll()
 //                .antMatchers(HttpMethod.GET, "/api/reply/**").permitAll()
-                // 그 외 모든 요청은 인증과정 필요
-                .anyRequest().authenticated()
-                .and()
-                // 토큰을 활용하면 세션이 필요 없으므로 STATELESS로 설정하여 Session을 사용하지 않는다.
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+                .anyRequest().permitAll();
 
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowCredentials(true) ;
+        configuration.setAllowCredentials(true) ; // 내 서버가 응답을 할 때 json을 자바스크립트에서 처리할 수 있게 할지 설정
         configuration.addAllowedOriginPattern("*");
         configuration.addAllowedOrigin("프론트 주소"); // 배포 시
         // 수정 필요
