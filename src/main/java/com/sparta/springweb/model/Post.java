@@ -19,28 +19,16 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "POST_ID",nullable = false)
     private Long Id;
-
-
-
     @Column(nullable = false)
     private String title;
-
     @Column(nullable = false)
-
     private String salesUnit;
-
     @Column(nullable = false)
     private String weight;
-
-   
-
     @Column(nullable = false)
     private int price;
-
     @Embedded
     private File file;
-
-
 
 
     public Post(PostRequestDto postRequestDto) {
@@ -65,5 +53,5 @@ public class Post {
 
 
 
-}
+
 

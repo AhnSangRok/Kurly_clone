@@ -1,5 +1,6 @@
 package com.sparta.springweb.service;
 
+import com.sparta.springweb.exception.CustomException;
 import com.sparta.springweb.model.Cart;
 import com.sparta.springweb.model.CartItem;
 import com.sparta.springweb.model.Post;
@@ -18,6 +19,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.sparta.springweb.exception.ErrorCode.*;
+
 //import static com.sparta.springweb.exception.ErrorCode;
 
 @Service
@@ -32,7 +35,7 @@ public class CartService { //장바구니
     public CartItem postItem(Long postId, UserDetailsImpl userDetails) {
         //  유저확인
         if (userDetails.getUser() == null){
-//            throw new CustomException(NOT_FOUND_USER);
+           throw new CustomException(NOT_FOUND_USER);
         }
 
         Cart cart = cartRepository.findByUser(userDetails.getUser());
@@ -52,7 +55,7 @@ public class CartService { //장바구니
         Post post = postRepository.findPostById(postId);
         //해당 물건이 존재하지 않을 시
         if (post == null){
-//            throw new CustomException(NOT_FOUND_POST);
+            throw new CustomException(NOT_FOUND_POST);
         }
 
         CartItem cartItem = cartItemRepository.findByCartIdAndPostId(cart.getId(), postId);
@@ -62,7 +65,7 @@ public class CartService { //장바구니
             cartItem = CartItem.builder()
                     .cart(cart)
                     .title(post.getTitle())
-                    .imageUrl(post.getImageUrl())
+                    .file(post.getFile())
                     .price(post.getPrice())
                     .build();
             cartItemRepository.save(cartItem);
@@ -78,7 +81,7 @@ public class CartService { //장바구니
     public Cart getCart(User user) {
         //  유저확인
         if (user == null){
-//            throw new CustomException(NOT_FOUND_USER);
+            throw new CustomException(NOT_FOUND_USER);
         }
         Cart cart = cartRepository.findByUser(user);
         List<CartItem> cartItemList =new ArrayList<>();
@@ -122,7 +125,7 @@ public class CartService { //장바구니
     public Cart deleteItem(Long cartItemId, User user) {
         //  유저확인
         if (user == null){
-//            throw new CustomException(NOT_FOUND_USER);
+            throw new CustomException(NOT_FOUND_USER);
         }
         //장바구니 아이디가 정확한지 확인
         Optional<CartItem> cartItem = cartItemRepository.findById(cartItemId);
@@ -130,7 +133,7 @@ public class CartService { //장바구니
         Cart cart = cartRepository.findByUser(user);
         //  장바구니 확인
         if (cart == null){
-//            throw new CustomException(NOT_FOUND_ITEM);
+            throw new CustomException(NOT_FOUND_ITEM);
         }
 
         //상속 받고 있는 데이터 부터 삭제
@@ -152,19 +155,19 @@ public class CartService { //장바구니
     public Cart deleteCart(User user) {
         //  유저확인
         if (user == null){
-//            throw new CustomException(NOT_FOUND_USER);
+            throw new CustomException(NOT_FOUND_USER);
         }
 
         Cart cart = cartRepository.findByUser(user);
         //  장바구니 확인
         if (cart == null){
-//            throw new CustomException(NOT_FOUND_ITEM);
+            throw new CustomException(NOT_FOUND_ITEM);
         }
 
         List<CartItem> items =  cart.getPosts();
         //  장바구니 물건 확인
         if (items == null){
-//            throw new CustomException(NOT_FOUND_ITEM);
+           throw new CustomException(NOT_FOUND_ITEM);
         }
 
         //장바구니에 있는 물건 비우기

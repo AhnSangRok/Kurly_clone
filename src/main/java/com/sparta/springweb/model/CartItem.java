@@ -1,6 +1,7 @@
 package com.sparta.springweb.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sparta.springweb.model.Embedded.File;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,7 +22,7 @@ public class CartItem { //장바구니 물건
     private String title;
 
     @Column(nullable = false)
-    private String imageUrl;
+    private File file;
 
     @Column(nullable = false)
     private int price;
