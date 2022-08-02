@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 //import static com.sparta.springweb.exception.ErrorCode;
 
@@ -49,6 +50,10 @@ public class CartService {
         }
 
         Post post = postRepository.findPostById(postId);
+        //해당 물건이 존재하지 않을 시
+        if (post == null){
+//            throw new CustomException(NOT_FOUND_POST);
+        }
 
         CartItem cartItem = cartItemRepository.findByCartIdAndPostId(cart.getId(), postId);
 
@@ -119,6 +124,8 @@ public class CartService {
         if (user == null){
 //            throw new CustomException(NOT_FOUND_USER);
         }
+        //장바구니 아이디가 정확한지 확인
+        Optional<CartItem> cartItem = cartItemRepository.findById(cartItemId);
 
         Cart cart = cartRepository.findByUser(user);
         //  장바구니 확인
