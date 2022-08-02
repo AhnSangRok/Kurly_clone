@@ -10,6 +10,9 @@ public enum ErrorCode {
     ID_LENGTH_CODE(400, "C002", "아이디는 3자 이상 입력해주세요"),
     ID_FORM_CODE(400, "C003", "아이디는 알파벳 대소문자와 숫자로만 입력해주세요"),
     //response.message -> then
+//    NOT_FOUND_USER(HttpStatus.NOT_FOUND, "404", "유저를 찾을 수 없습니다. 로그인을 다시 해주세요."),
+//    NOT_FOUND_POST(HttpStatus.NOT_FOUND, "404", "해당 물건이 존재하지 않습니다."),
+//    NOT_FOUND_ITEM(HttpStatus.NOT_FOUND, "404", "장바구니에 물건이 존재하지 않습니다."),
     PASSWORD_CHECK_CODE(400, "C004", "패스워드와 패스워드 확인이 일치하지 않습니다"),
     PASSWORD_LENGTH_CODE(400, "C005", "패스워드는 4글자 이상 입력해주세요"),
     PASSWORD_INCLUDE_CODE(400, "C006", "비밀번호에 아이디가 포함될 수 없습니다"),
@@ -26,3 +29,4 @@ public enum ErrorCode {
     }
 
 }
+
