@@ -2,12 +2,9 @@ package com.sparta.springweb;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import javax.annotation.PostConstruct;
-import java.util.TimeZone;
 
-@EnableJpaAuditing
+
 @SpringBootApplication
 public class SpringwebApplication {
 
@@ -15,10 +12,7 @@ public class SpringwebApplication {
         SpringApplication.run(SpringwebApplication.class, args);
     }
 
-    @PostConstruct
-    public void started() {
-        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
-    }
+
 
 //    @Bean
 //    public CommandLineRunner demo(PostsRepository repository) {

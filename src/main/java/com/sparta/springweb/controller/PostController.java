@@ -2,27 +2,32 @@ package com.sparta.springweb.controller;
 
 
 import com.sparta.springweb.dto.PostResponseDto;
-import com.sparta.springweb.dto.PostResquestDto;
+import com.sparta.springweb.dto.PostRequestDto;
 import com.sparta.springweb.model.Post;
 import com.sparta.springweb.service.PostService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+import java.io.IOException;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class PostController {
 
     @Autowired
     private PostService postService;
 
-//(메인페이지)게시글 작성
+
+
+
+    //(메인페이지)게시글 작성
     @PostMapping("/api/post")
-    public ResponseEntity<Post> post(@RequestBody PostResquestDto postResquestDto){
-        postService.savepost(postResquestDto);
+    public ResponseEntity<Post> post(@ModelAttribute PostRequestDto postRequestDto) throws IOException {
+        postService.savepost(postRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(null);
     }
@@ -55,13 +60,10 @@ public ResponseEntity<List<PostResponseDto>> mainpost(){
 
 //(메인페이지)게시글 수정
     @PutMapping("/api/post/{postId}")
-    public ResponseEntity<Post> updatepost(@PathVariable Long postId, @RequestBody PostResquestDto postResquestDto){
-        postService.updatepost(postId,postResquestDto);
+    public ResponseEntity<Post> updatepost(@PathVariable Long postId,@ModelAttribute PostRequestDto postRequestDto){
+        postService.updatepost(postId,postRequestDto);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(null);
     }
-
-
-
 
 }

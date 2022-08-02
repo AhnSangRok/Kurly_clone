@@ -6,16 +6,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class PostDto {
+public class PostRequestDto {
+    private String title;
+    private String salesUnit;
+    private String weight;
+    private int price;
+    private MultipartFile image;
 
-    public String title;
-    public int Price;
-    public String salesUnit;
-    public String weight;
-    public MultipartFile image;
+
 
 }

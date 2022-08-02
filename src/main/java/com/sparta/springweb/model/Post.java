@@ -1,10 +1,11 @@
 package com.sparta.springweb.model;
 
 
-import com.sparta.springweb.dto.PostResquestDto;
+import com.sparta.springweb.dto.PostRequestDto;
+import com.sparta.springweb.model.Embedded.File;
 import lombok.*;
-
 import javax.persistence.*;
+
 @Entity
 @Setter
 @Getter
@@ -12,15 +13,14 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 public class Post {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "POST_ID",nullable = false)
+    private Long Id;
 
     @Column(nullable = false)
     private String title;
-
-    @Column(nullable = false)
-    private String image_url;
 
     @Column(nullable = false)
     private String salesUnit;
@@ -31,31 +31,29 @@ public class Post {
     @Column(nullable = false)
     private int price;
 
+    @Embedded
+    private File file;
 
 
 
-    public Post(PostResquestDto postResquestDto) {
-        this.title = postResquestDto.getTitle();
-        this.image_url = postResquestDto.getImage_url();
-        this.salesUnit = postResquestDto.getSalesUnit();
-        this.weight = postResquestDto.getWeight();
-        this.price = postResquestDto.getPrice();
+
+    public Post(PostRequestDto postRequestDto) {
+        this.title = postRequestDto.getTitle();
+        this.salesUnit = postRequestDto.getSalesUnit();
+        this.weight = postRequestDto.getWeight();
+        this.price = postRequestDto.getPrice();
     }
 
-
-
-
-    public void update(PostResquestDto postResquestDto) {
-        this.title = postResquestDto.getTitle();
-        this.image_url = postResquestDto.getImage_url();
-        this.salesUnit = postResquestDto.getSalesUnit();
-        this.weight = postResquestDto.getWeight();
-        this.price = postResquestDto.getPrice();
-
-
-
+    public void update(PostRequestDto postRequestDto) {
+        this.title = postRequestDto.getTitle();
+        this.salesUnit = postRequestDto.getSalesUnit();
+        this.weight = postRequestDto.getWeight();
+        this.price = postRequestDto.getPrice();
     }
 
+    public void setFile(File file) {
+        this.file = file;
+    }
 }
 
 
