@@ -1,33 +1,69 @@
 package com.sparta.springweb.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+
+import com.sparta.springweb.dto.PostRequestDto;
+import com.sparta.springweb.model.Embedded.File;
+import lombok.*;
 import javax.persistence.*;
 
+@Entity
 @Setter
-@Getter // get 함수를 일괄적으로 만들어줍니다.
-@NoArgsConstructor // 기본 생성자를 만들어줍니다.
-@Entity // DB 테이블 역할을 합니다.
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Post {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Column(name = "POST_ID",nullable = false)
+    private Long Id;
+
+
 
     @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
-    private String imageUrl;
 
-    @Column(nullable = false)
-    private int price;
-
-    @Column(nullable = false)
     private String salesUnit;
 
     @Column(nullable = false)
     private String weight;
 
+   
+
+    @Column(nullable = false)
+    private int price;
+
+    @Embedded
+    private File file;
+
+
+
+
+    public Post(PostRequestDto postRequestDto) {
+        this.title = postRequestDto.getTitle();
+        this.salesUnit = postRequestDto.getSalesUnit();
+        this.weight = postRequestDto.getWeight();
+        this.price = postRequestDto.getPrice();
+    }
+
+    public void update(PostRequestDto postRequestDto) {
+        this.title = postRequestDto.getTitle();
+        this.salesUnit = postRequestDto.getSalesUnit();
+        this.weight = postRequestDto.getWeight();
+        this.price = postRequestDto.getPrice();
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
 }
+
+
+
+
+}
+
