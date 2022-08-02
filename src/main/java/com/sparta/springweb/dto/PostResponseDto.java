@@ -1,6 +1,7 @@
 package com.sparta.springweb.dto;
 
 
+
 import com.sparta.springweb.model.Post;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,4 +28,6 @@ public class PostResponseDto {
         this.image= post.getFile().getFileUrl();
 
     }
+
+
 }

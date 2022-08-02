@@ -1,6 +1,7 @@
 package com.sparta.springweb.model;
 
 
+
 import com.sparta.springweb.dto.PostRequestDto;
 import com.sparta.springweb.model.Embedded.File;
 import lombok.*;
@@ -19,14 +20,19 @@ public class Post {
     @Column(name = "POST_ID",nullable = false)
     private Long Id;
 
+
+
     @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
+
     private String salesUnit;
 
     @Column(nullable = false)
     private String weight;
+
+   
 
     @Column(nullable = false)
     private int price;
@@ -56,4 +62,8 @@ public class Post {
     }
 }
 
+
+
+
+}
 
