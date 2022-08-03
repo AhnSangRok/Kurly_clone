@@ -65,7 +65,7 @@ public class CartService { //장바구니
             cartItem = CartItem.builder()
                     .cart(cart)
                     .title(post.getTitle())
-                    .file(post.getFile())
+                    .imageUrl(post.getFile().getFileUrl())
                     .price(post.getPrice())
                     .build();
             cartItemRepository.save(cartItem);
@@ -100,9 +100,14 @@ public class CartService { //장바구니
         }
 
         int totalPrice = 0;
-        int deliveryFee = 3000;
+        int deliveryFee = 0;
 
         List<CartItem> cartItems = cartItemRepository.findCartItemsByCart(cart);
+
+        //만약 장바구니안에 물건이 있을 경우, 없으면 0원
+        if (!cartItems.isEmpty()){
+            deliveryFee = 3000;
+        }
 
         for (CartItem cartItem : cartItems){
             cartItemList.add(cartItem);
