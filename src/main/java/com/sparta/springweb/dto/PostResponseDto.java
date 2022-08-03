@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class PostResponseDto {
+
+    private Long id;
     private String title;
     private String salesUnit;
     private String weight;
@@ -21,6 +23,7 @@ public class PostResponseDto {
 
 
     public PostResponseDto(Post post) {
+        this.id = post.getId();
         this.title= post.getTitle();
         this.salesUnit=post.getSalesUnit();
         this.weight= post.getWeight();

@@ -16,9 +16,9 @@ import javax.persistence.*;
 public class Post {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "POST_ID",nullable = false)
-    private Long Id;
+    private Long id;
     @Column(nullable = false)
     private String title;
     @Column(nullable = false)
@@ -45,9 +45,6 @@ public class Post {
         this.price = postRequestDto.getPrice();
     }
 
-    public void setFile(File file) {
-        this.file = file;
-    }
 }
 
 

@@ -18,12 +18,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostController {
 
-    @Autowired
-    private PostService postService;
 
-
-
-
+    private final PostService postService;
     //(메인페이지)게시글 작성
     @PostMapping("/api/post")
     public ResponseEntity<Post> post(@ModelAttribute PostRequestDto postRequestDto) throws IOException {
@@ -31,8 +27,6 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(null);
     }
-
-
 //(메인페이지)게시글 삭제
     @DeleteMapping("/api/post/{postId}")
         public ResponseEntity<Long> deletepost(@PathVariable Long postId) {

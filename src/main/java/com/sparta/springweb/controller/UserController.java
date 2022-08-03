@@ -33,20 +33,6 @@ public class UserController {
 //        return userService.logout(request);
 //    }
 
-    @GetMapping("/cart")
-    public String getCart(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        if(userDetails==null) {
-            // 유저가 없다는 의미이므로 비정상 페이지 리턴
-            throw new CustomException(ID_LENGTH_CODE);
-        } else{
-            // 토큰 값이 있으므로 정상 페이지 리턴
-
-            // 1. 먼저 현재 접속 중인 유저의 토큰 값을 가져와야함
-
-            return "";
-        }
-
-    }
 
 
 

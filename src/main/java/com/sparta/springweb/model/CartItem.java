@@ -22,7 +22,7 @@ public class CartItem { //장바구니 물건
     private String title;
 
     @Column(nullable = false)
-    private File file;
+    private String imageUrl;
 
     @Column(nullable = false)
     private int price;
