@@ -1,5 +1,6 @@
 package com.sparta.springweb.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sparta.springweb.model.Embedded.File;
@@ -32,7 +33,7 @@ public class CartItem { //장바구니 물건
     private Post post;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonBackReference
     private Cart cart;
 
 }
