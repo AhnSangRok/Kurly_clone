@@ -57,7 +57,7 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
 
         String jwtToken = JWT.create()
                 .withSubject(userDetails.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis()+(60000*10)))
+                .withExpiresAt(new Date(System.currentTimeMillis()+(60000*10*24)))
                 .withClaim("id",userDetails.getUser().getId())
                 .withClaim("username",userDetails.getUser().getUsername())
                 .sign(Algorithm.HMAC512("clone_3team"));

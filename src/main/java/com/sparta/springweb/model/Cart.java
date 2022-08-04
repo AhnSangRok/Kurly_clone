@@ -15,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 public class Cart {//장바구니
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

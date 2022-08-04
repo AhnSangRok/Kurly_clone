@@ -16,7 +16,4 @@ public class PostRequestDto {
     private String weight;
     private int price;
     private MultipartFile image;
-
-
-
 }

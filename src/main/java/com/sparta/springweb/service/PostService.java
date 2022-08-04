@@ -27,7 +27,6 @@ import java.util.UUID;
 @Service
 @Setter
 @RequiredArgsConstructor
-@Component
 public class PostService {
 
     private final AmazonS3Client amazonS3Client;
@@ -37,21 +36,21 @@ public class PostService {
 
 
 //게시글 생성
-@Transactional
-public void savepost(PostRequestDto postresquestdto) throws IOException {
+    @Transactional
+    public void savepost(PostRequestDto postresquestdto) throws IOException {
 
-    FileDto fileDto = createFile(postresquestdto.getImage());
-    File saveFile = new File(fileDto);
-    Post post = Post.builder()
-            .title(postresquestdto.getTitle())
-            .salesUnit(postresquestdto.getSalesUnit())
-            .weight(postresquestdto.getWeight())
-            .price(postresquestdto.getPrice())
-            .file(saveFile)
-            .build();
+        FileDto fileDto = createFile(postresquestdto.getImage());
+        File saveFile = new File(fileDto);
+        Post post = Post.builder()
+                .title(postresquestdto.getTitle())
+                .salesUnit(postresquestdto.getSalesUnit())
+                .weight(postresquestdto.getWeight())
+                .price(postresquestdto.getPrice())
+                .file(saveFile)
+                .build();
 
-    postRepository.save(post);
-}
+        postRepository.save(post);
+    }
 //이미지생성
     public FileDto createFile(MultipartFile file) throws IOException {
         String originalName = file.getOriginalFilename();
@@ -112,11 +111,6 @@ public void savepost(PostRequestDto postresquestdto) throws IOException {
         }
         return responseDtos;
     }
-
-
-
-
-
 
 //insert into POST (ID, IMAGE_URL, PRICE, SALES_UNIT ,TITLE , WEIGHT) values (1, 'Suzuki', 1, '123' , '1234' , '1234' );
 }

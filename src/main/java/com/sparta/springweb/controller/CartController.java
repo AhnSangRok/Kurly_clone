@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@SuppressWarnings("unchecked")
 public class CartController {
     private final CartService cartService;
 
@@ -34,12 +35,6 @@ public class CartController {
         Cart cart = cartService.getCart(userDetails.getUser());
         CartResponseDto responseDto = new CartResponseDto(cart);
         return new ResponseEntity(responseDto,HttpStatus.OK);
-    }
-
-    @GetMapping("/api/cart1")
-    public List<CartItem> getCartt(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        Cart cart = cartService.getCart(userDetails.getUser());
-        return cart.getPosts();
     }
 
     // 장바구니 특정 물건 삭제

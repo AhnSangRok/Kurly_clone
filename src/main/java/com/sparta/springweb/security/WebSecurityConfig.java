@@ -71,7 +71,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers(HttpMethod.GET, "/api/reply/**").permitAll()
                 .anyRequest().permitAll();
 
-
     }
 
     @Bean
