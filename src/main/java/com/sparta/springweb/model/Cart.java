@@ -1,5 +1,6 @@
 package com.sparta.springweb.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -29,7 +30,7 @@ public class Cart {//장바구니
     private int deliveryFee;
 
     @OneToMany
-    @JsonIgnore
+    @JsonBackReference
     @Column
     private List<CartItem> posts = new ArrayList<>();
 
